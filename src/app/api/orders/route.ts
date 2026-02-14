@@ -33,11 +33,11 @@ export async function POST(request: NextRequest) {
     const tableNo = Number(body.tableNo);
 
     if (!Array.isArray(items) || items.length === 0) {
-      return errorResponse('Order must contain at least one item', 400);
+      return errorResponse('Order must contain at least one item', "400");
     }
 
     if (!tableNo || tableNo <= 0) {
-      return errorResponse('Invalid table number', 400);
+      return errorResponse('Invalid table number', "400");
     }
 
     const staff = await Staff.findById(String(auth.payload.userId));
@@ -51,12 +51,12 @@ export async function POST(request: NextRequest) {
     for (const item of items) {
       const menu = await MenuItem.findById(String(item.menuItemId));
       if (!menu || !menu.isAvailable) {
-        return errorResponse('Menu item unavailable', 400);
+        return errorResponse('Menu item unavailable', "400");
       }
 
       const quantity = Number(item.quantity);
       if (!quantity || quantity <= 0) {
-        return errorResponse('Invalid quantity', 400);
+        return errorResponse('Invalid quantity', "400");
       }
 
       const subtotal = Number(menu.price) * quantity;
